@@ -17,6 +17,7 @@
           <label for="password" class="block text-sm font-medium text-gray-700">비밀번호</label>
           <div class="relative">
             <input
+            v-model="password"
               type="password"
               id="password"
               placeholder="비밀번호 입력하세요."
@@ -44,6 +45,7 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter()
 
+const password =ref("")
 const showPassword = ref(false)
 const togglePassword = ()=>{
     showPassword.value = !showPassword.value
