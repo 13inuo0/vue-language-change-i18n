@@ -7,9 +7,9 @@
     <div class="fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-800 shadow-lg">
       <div class="flex flex-col h-full">
         <!-- 로고 -->
-        <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+        <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
           <h1 class="text-xl font-bold text-gray-800 dark:text-white">관리자 대시보드</h1>
-        </div>
+               <DarkMode/> </div>
         <!-- 네비게이션 메뉴 -->
         <nav class="flex-1 p-4 space-y-2">
           <router-link
@@ -24,6 +24,7 @@
             <i :class="[link.icon, 'mr-3']"></i>{{ link.name }}
           </router-link>
         </nav>
+
         <!-- 로그아웃 버튼 -->
         <div class="p-4 border-t border-gray-200 dark:border-gray-700">
           <button
@@ -47,6 +48,7 @@
   </div>
 </template>
 <script setup>
+import DarkMode from '@/components/DarkMode.vue';
 import { useRoute, useRouter } from 'vue-router';
 
 
