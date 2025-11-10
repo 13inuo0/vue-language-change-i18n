@@ -14,23 +14,23 @@
         <div class="h-64">
           <Chart />
         </div>
-        <!-- 최근 내역 -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">최근 예약</h2>
-          <div class="space-y-4">
-            <div
-              v-for="reservation in recentReservations"
-              :key="reservation.Id"
-              class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"
-            >
-              <div>
-                <p class="font-medium text-gray-900 dark:text-white">{{ reservation.customerName }}</p>
-                <p class="text-sm text-gray-500 dark:text-gray-400">{{ reservation.date }}</p>
-              </div>
-              <span  :class="getStatusClass(reservation.status)" class="px-2 py-1 text-xs font-semibold rounded-full">
-                {{ reservation.status }}
-              </span>
+      </div>
+      <!-- 최근 내역 -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">최근 예약</h2>
+        <div class="space-y-4">
+          <div
+            v-for="reservation in recentReservations"
+            :key="reservation.Id"
+            class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"
+          >
+            <div>
+              <p class="font-medium text-gray-900 dark:text-white">{{ reservation.customerName }}</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400">{{ reservation.date }}</p>
             </div>
+            <span :class="getStatusClass(reservation.status)" class="px-2 py-1 text-xs font-semibold rounded-full">
+              {{ reservation.status }}
+            </span>
           </div>
         </div>
       </div>
@@ -87,8 +87,7 @@ const recentReservations = ref([
 // 상태 css
 const getStatusClass = (status) => {
   const statusClasses = {
-    예약완료:
-      "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300",
+    예약완료: "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300",
     진행중: "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300",
     대기중: "bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-300",
     확정: "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300",
@@ -96,9 +95,6 @@ const getStatusClass = (status) => {
     취소: "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300",
     활동중: "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300",
   };
-  return (
-    statusClasses[status] ||
-    "bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-300"
-  );
+  return statusClasses[status] || "bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-300";
 };
 </script>
