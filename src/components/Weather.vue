@@ -4,11 +4,11 @@
     <div v-if="error" class="text-red-600">{{ error }}</div>
     <div v-else-if="weather" class="flex flex-col items-center">
         <img :src="`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`" :alt="weather.weather[0].description"
-        class="w-21 h-21"
+        class="w-15 h-15"
         >
 
-      <p>{{ weather.main.temp.toFixed(1) }}°C</p>
-      <p>{{ weather.weather[0].description }}</p>
+      <p class="text-sm">{{ weather.main.temp.toFixed(1) }}°C</p>
+      <p class="text-sm">{{ weather.weather[0].description }}</p>
 
     </div>
     <!-- 로딩 표시 -->
