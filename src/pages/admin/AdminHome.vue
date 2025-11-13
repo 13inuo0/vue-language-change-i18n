@@ -9,7 +9,8 @@
         <!-- 로고 -->
         <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
           <h1 class="text-xl font-bold text-gray-800 dark:text-white">관리자 대시보드</h1>
-               <DarkMode/> </div>
+          <DarkMode />
+        </div>
         <!-- 네비게이션 메뉴 -->
         <nav class="flex-1 p-4 space-y-2">
           <router-link
@@ -48,12 +49,11 @@
   </div>
 </template>
 <script setup>
-import DarkMode from '@/components/DarkMode.vue';
-import { useRoute, useRouter } from 'vue-router';
+import DarkMode from "@/components/DarkMode.vue";
+import { useRoute, useRouter } from "vue-router";
 
-
-const route = useRoute()
-const router = useRouter()
+const route = useRoute();
+const router = useRouter();
 
 const links = [
   { name: "대시보드", path: "/admin/dashboard", icon: "fas fa-chart-line" },
@@ -71,8 +71,20 @@ const links = [
 
 // 현재 경로에 따른 활성화 상태
 const isActive = (path) => route.path === path;
-const logout =()=>{
-    // 로그아웃 처리
-    router.push("/admin")
-}
+const logout = () => {
+  // 로그아웃 처리
+  router.push("/admin");
+};
 </script>
+<style scoped>
+@media (max-width: 768px) {
+  .fixed {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+  .ml-64 {
+    margin-left: 0;
+  }
+}
+</style>
