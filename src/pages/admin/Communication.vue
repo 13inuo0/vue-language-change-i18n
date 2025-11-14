@@ -12,7 +12,7 @@
           <div>
             <p :class="[card.labelClass, 'text-sm mb-1']">{{ card.label }}</p>
             <p class="text-3xl font-bold">
-              {{}} <span v-if="card.suffix">{{ card.suffix }}</span>
+              {{ card.value }} <span v-if="card.suffix">{{ card.suffix }}</span>
             </p>
           </div>
           <div class="w-14 h-14 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
@@ -52,22 +52,22 @@
       </div>
     </div>
     <!-- 대화 목록 -->
-    <div class="bg-white rounded-lg shadow-sm">
+    <div class="bg-white rounded-lg shadow-sm dark:bg-gray-800 dark:text-white">
       <div class="overflow-x-auto">
         <table class="w-full">
-          <thead class="bg-gray-50">
+          <thead class="bg-gray-50 dark:bg-gray-800 dark:text-white">
             <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-white">
                 대화 시작일
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">고객명</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-white">고객명</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:bg-gray-800 dark:text-white">
                 마지막 메시지
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">상태</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">응답 시간</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">만족도</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">관리</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:bg-gray-800 dark:text-white">상태</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:bg-gray-800 dark:text-white">응답 시간</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:bg-gray-800 dark:text-white">만족도</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:bg-gray-800 dark:text-white">관리</th>
             </tr>
           </thead>
           <tbody class="bg-white">
@@ -116,7 +116,9 @@
                   {{ getStatusText(conversation.status) }}
                 </span>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ conversation.responseTime }}분</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                {{ conversation.responseTime === null ? "미응답" : `${conversation.responseTime}분` }}
+              </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center">
                   <div class="flex">
@@ -140,11 +142,18 @@
         </table>
       </div>
     </div>
+
+    <!-- 빈상태 -->
+    <div v-if="filteredConversations.length === 0" class="text-center py-12">
+      <i class="fas fa-comments text-6xl text-gray-300 mb-4"></i>
+      <p class="text-gray-500 text-lg">대화 내역이 없습니다.</p>
+    </div>
+
     <!-- 대화 상세 모달 -->
     <div v-if="selectedConversation" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
       <div class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] flex flex-col">
-        <!-- 대화찰 상단 유저 정보 -->
-        <div class="p-6 border-b flex justify-between items-center">
+        <!-- 대화창 상단 유저 정보 -->
+        <div class="p-6 border-b flex justify-between items-center dark:bg-gray-800 dark:text-white">
           <!-- 사용자 정보 -->
           <div class="flex items-center">
             <div
@@ -170,7 +179,7 @@
           </button>
         </div>
         <!-- 대화 내용 -->
-        <div class="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50">
+        <div class="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50 dark:bg-gray-800 dark:text-white">
           <div
             v-for="message in conversationMessages"
             :key="message.id"
@@ -180,7 +189,7 @@
             <div
               :class="[
                 'max-w-lg',
-                message.sender === 'customer' ? 'bg-white' : 'bg-indigo-600 text-white',
+                message.sender === 'customer' ? 'bg-white  dark:text-gray-700' : 'bg-indigo-600 text-white',
                 'rounded-lg p-4 shadow-sm',
               ]"
             >
@@ -193,7 +202,7 @@
           </div>
         </div>
         <!-- 대화 입력 및 답변 -->
-        <div class="p-6 border-t bg-white">
+        <div class="p-6 border-t bg-white dark:bg-gray-800 dark:text-white">
           <div class="flex flex-col md:flex-row md:items-center gap-3">
             <input
               type="text"
@@ -209,7 +218,10 @@
               >
                 <i class="fas fa-bolt mr-2"></i>빠른 답변
               </button>
-              <button @click="sendMessage" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+              <button
+                @click="sendMessage"
+                class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+              >
                 <i class="fas fa-paper-plane mr-2"></i>전송
               </button>
               <button
@@ -269,7 +281,7 @@ const statCards = computed(() => [
   {
     id: "total",
     label: "전체 대화",
-    // value: totalConversations.value,
+    value: totalConversations.value,
     suffix: "",
     labelClass: "text-blue-100",
     backgroundClass: "bg-gradient-to-br from-blue-500 to-blue-600",
@@ -279,7 +291,7 @@ const statCards = computed(() => [
   {
     id: "active",
     label: "활성 대화",
-    // value: activeConversations.value,
+    value: activeConversations.value,
     suffix: "",
     labelClass: "text-green-100",
     backgroundClass: "bg-gradient-to-br from-green-500 to-green-600",
@@ -289,7 +301,7 @@ const statCards = computed(() => [
   {
     id: "avg-response",
     label: "평균 응답 시간",
-    // value: avgResponseTime.value,
+    value: avgResponseTime.value,
     suffix: "m",
     labelClass: "text-yellow-100",
     backgroundClass: "bg-gradient-to-br from-yellow-500 to-yellow-600",
@@ -299,7 +311,7 @@ const statCards = computed(() => [
   {
     id: "satisfaction",
     label: "만족도",
-    // value: satisfactionRate.value,
+    value: satisfactionRate.value,
     suffix: "%",
     labelClass: "text-purple-100",
     backgroundClass: "bg-linear-to-br from-purple-500 to-purple-600",
@@ -307,6 +319,25 @@ const statCards = computed(() => [
     iconColor: "text-purple-500",
   },
 ]);
+const totalConversations = computed(() => conversations.value.length);
+const activeConversations = computed(() => conversations.value.filter((c) => c.status === "active").length);
+const avgResponseTime = computed(() => {
+  const times = conversations.value.map((c) => c.responseTime).filter((t) => t !== null);
+  if (times.length === 0) return0;
+  // reduce() 배열의 모든 요소를 더하는 매서드 함수
+  return Math.round(times.reduce((a, b) => {return a + b}, 0) / times.length);
+});
+const satisfactionRate = computed(() => {
+  const ratings = conversations.value.map((c) => c.rating).filter((r) => r !== null);
+  // console.log(ratings);
+  if (ratings.length === 0) return 0;
+  return Math.round(
+    ratings.reduce((a, b) => {
+      // console.log(a,b);
+      return a + b;
+    }, 0) / ratings.length
+  );
+});
 
 // 필터 하는 함수
 const filters = [
@@ -370,7 +401,7 @@ const conversations = ref([
     id: 1,
     customerName: "김철수",
     email: "kim@example.com",
-    startDate: new Date("2025-11-10"),
+    startDate: new Date("2025-11-13"),
     lastMessage: "감사합니다. 다음에도 이용하겠습니다!",
     status: "closed",
     responseTime: 15,
@@ -381,7 +412,7 @@ const conversations = ref([
     id: 2,
     customerName: "이영희",
     email: "lee@example.com",
-    startDate: new Date("2025-11-09"),
+    startDate: new Date("2025-11-14"),
     lastMessage: "청소 후 확인을 받아볼 수 있나요?",
     status: "active",
     responseTime: 8,
@@ -392,7 +423,7 @@ const conversations = ref([
     id: 3,
     customerName: "박민수",
     email: "park@example.com",
-    startDate: new Date("2025-11-12"),
+    startDate: new Date("2025-11-14"),
     lastMessage: "혹시 시간 변경이 가능한가요?",
     status: "waiting",
     responseTime: null,
@@ -487,6 +518,8 @@ function sendMessage() {
     timestamp: new Date(),
   };
   allMessages.value.push(message);
+  selectedConversation.value.lastMessage = message.content;
+  selectedConversation.value.responseTime = Math.round((new Date() - selectedConversation.value.startDate) / 1000 / 60);
   newMessage.value = "";
   //  console.log(allMessages.value);
 }
@@ -499,6 +532,7 @@ function markAnswered() {
     conversations.value[idx].status = "closed";
     conversations.value[idx].unreadCount = 0;
     selectedConversation.value = null;
+
     newMessage.value = "";
   }
 }
@@ -541,7 +575,7 @@ function selectTemplate(template) {
   if (selectedConversation.value) {
     newMessage.value = template.content;
     showQuick.value = false;
-    document.querySelector('input[v-model="newMessage"]')?.focus()
+    document.querySelector('input[v-model="newMessage"]')?.focus();
     // ? = 해당 기능이 있으면 이라는 의미
   }
 }
