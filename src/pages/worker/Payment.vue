@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full">
+  <div class="w-full ">
     <!-- 상단 정산 요약 카드 -->
     <div class="mb-4">
       <div

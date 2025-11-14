@@ -22,7 +22,7 @@
       </div>
     </div>
     <!-- 필터 및 검색 -->
-    <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
+    <div class="bg-white rounded-lg shadow-sm p-4 mb-6 dark:bg-gray-800 dark:text-white">
       <div class="flex flex-col md:flex-row gap-4">
         <div class="flex flex-wrap gap-2 flex-1">
           <button
@@ -70,7 +70,7 @@
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:bg-gray-800 dark:text-white">관리</th>
             </tr>
           </thead>
-          <tbody class="bg-white">
+          <tbody class="bg-white dark:bg-gray-800 dark:text-white">
             <tr
               v-for="conversation in filteredConversations"
               :key="conversation.id"

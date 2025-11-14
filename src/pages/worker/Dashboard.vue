@@ -24,7 +24,7 @@
       </div>
     </header>
     <!-- 메인 -->
-    <main class="bg-gray-100 overflow-y-auto overflow-x-hidden w-full max-h-[calc(100vh-68px)] pt-[145px]">
+    <main class="bg-gray-100 overflow-y-auto overflow-x-hidden w-full max-h-[calc(100vh-68px)] pt-[145px] dark:bg-gray-800 dark:text-white">
       <router-view></router-view>
     </main>
     <!-- 하단 탭바 -->
